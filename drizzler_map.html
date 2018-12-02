@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>サンプル</title>
+<script src="drawMap.js"></script>
+</head>
+<body>
+  <form name="mapbox">
+    <select name="map" onchange="drawMap()">
+      <option value="dam" selected>シェケナダム</option>
+      <option value="ship">ドンブラコ</option>
+      <option value="house">シャケトバ</option>
+      <option value="lift">トキシラズ</option>
+      <option value="polar">ポラリス</option>
+    </select>
+    <select name="tide" onchange="drawMap()">
+      <option value="high">満潮</option>
+      <option value="mid" selected>普通</option>
+      <option value="low">干潮</option>
+    </select>
+  </form>
+
+  <canvas id="cvs1" width="400" height="300"></canvas>
+
+  <script>drawMap();</script>
+</body>
+</html>
