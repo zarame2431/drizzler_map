@@ -1,8 +1,8 @@
 let parkingListAll={
   dam:{
     mid:{
-      x: [100,200,300],
-      y: [30,60,90]
+      x: [670,769,924,825,950,675,602,497,457,414,525,432],
+      y: [353,179,186,388,440,536,622,599,406,321,287,194]
     },
     low:{
       x: [100,150,200],
@@ -145,11 +145,11 @@ function drawMap() {
       //複数の駐車場のデータを読み取る
       points = parkingList;
       //点をプロット、記号も入力？
-      ctx.fillStyle = 'rgba(255,120,120,0.65)';
+      ctx.fillStyle = 'rgba(56,97,158,1)';
 
       for(let i=0;i<points.x.length;i++){
         ctx.beginPath();
-        ctx.arc(points.x[i],points.y[i],100,0,Math.PI*2,false);
+        ctx.arc(points.x[i],points.y[i],13,0,Math.PI*2,false);
         ctx.fill();
       }
 
