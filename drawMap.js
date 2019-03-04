@@ -1,3 +1,8 @@
+function point2d(x,y) {
+  this.x = x;
+  this.y = y;
+};
+
 let parkingListAll={
   dam:{
     mid:{
@@ -76,7 +81,99 @@ let parkingListAll={
 
 };
 
+let linkList={
+  dam:{
+    mid:  [
+            [0,1,0,1,0,1,0,0,1,0,1,0],
+            [1,0,1,1,0,0,0,0,0,0,0,0],
+            [0,1,0,1,1,0,0,0,0,0,0,0],
+            [1,1,1,0,1,1,0,0,0,0,0,0],
+            [0,0,1,1,0,1,0,0,0,0,0,0],
+            [1,0,0,1,1,0,1,0,1,0,0,0],
+            [0,0,0,0,0,1,0,1,1,0,0,0],
+            [0,0,0,0,0,0,1,0,1,0,0,0],
+            [1,0,0,0,0,1,1,1,0,1,1,0],
+            [0,0,0,0,0,0,0,0,1,0,1,1],
+            [1,0,0,0,0,0,0,0,1,1,0,1],
+            [0,0,0,0,0,0,0,0,0,1,1,0]
+          ],
+    low:{
+      x: [100,150,200],
+      y: [30,60,90]
+    },
+    high:{
+      x: [100,150,200],
+      y: [30,60,90]
+    }
+  },
+
+  ship:{
+    mid:{
+      x: [100,200,300],
+      y: [30,60,90]
+    },
+    low:{
+      x: [100,150,200],
+      y: [30,60,90]
+    },
+    high:{
+      x: [100,150,200],
+      y: [30,60,90]
+    }
+  },
+
+  house:{
+    mid:{
+      x: [100,200,300],
+      y: [30,60,90]
+    },
+    low:{
+      x: [100,150,200],
+      y: [30,60,90]
+    },
+    high:{
+      x: [100,150,200],
+      y: [30,60,90]
+    }
+  },
+
+  lift:{
+    mid:{
+      x: [100,200,300],
+      y: [30,60,90]
+    },
+    low:{
+      x: [100,150,200],
+      y: [30,60,90]
+    },
+    high:{
+      x: [100,150,200],
+      y: [30,60,90]
+    }
+  },
+
+  polar:{
+    mid:{
+      x: [100,200,300],
+      y: [30,60,90]
+    },
+    low:{
+      x: [100,150,200],
+      y: [30,60,90]
+    },
+    high:{
+      x: [100,150,200],
+      y: [30,60,90]
+    }
+  }
+};
+
+//function makeParkingList() {
+
+//};
+
 function drawMap() {
+  console.log("test");
   let map,tide,parkingMap,parkingList;
 
   switch(document.mapbox.map.selectedIndex){
@@ -140,16 +237,33 @@ function drawMap() {
 
 
       //座標割り出し、線描き、点描き、範囲描き、範囲塗り
-
-      let points;
+      let points = new Array();
       //複数の駐車場のデータを読み取る
-      points = parkingList;
+      for(let i=0;i<parkingList.x.length;i++){
+        points.push(new point2d(parkingList.x[i],parkingList.y[i]));
+      }
+      //線を引く
+      ctx.strokeStyle = 'rgba(0,97,0,1)';
+      ctx.lineWidth = 3;
+
+      ctx.beginPath();
+      for(let i=0;i<points.length;i++){
+        for(let j=i;j<points.length;j++){
+          if(linkList.dam.mid[i][j]==1){
+            ctx.moveTo(points[i].x,points[i].y);
+            ctx.lineTo(points[j].x,points[j].y);
+            ctx.closePath();
+          }
+        }
+      }
+      ctx.stroke();
+
       //点をプロット、記号も入力？
       ctx.fillStyle = 'rgba(56,97,158,1)';
 
-      for(let i=0;i<points.x.length;i++){
+      for(let i=0;i<points.length;i++){
         ctx.beginPath();
-        ctx.arc(points.x[i],points.y[i],13,0,Math.PI*2,false);
+        ctx.arc(points[i].x,points[i].y,13,0,Math.PI*2,false);
         ctx.fill();
       }
 

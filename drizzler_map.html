@@ -19,7 +19,7 @@
       <option value="mid" selected>普通</option>
       <option value="low">干潮</option>
     </select>
-    <input type="checkbox" name="always_low" value="1" checked="checked">常に干潮表示
+    <input type="checkbox" name="always_low" value="1" checked="checked" onchange="drawMap()">常に干潮表示
   </form>
 
   <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
