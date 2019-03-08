@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<title>サンプル</title>
-<script src="drawMap.js"></script>
+  <meta charset="utf-8">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="drawMap.js"></script>
+  <title>サンプル</title>
 </head>
 <body>
-  <form name="mapbox">
-    <select name="map" onchange="drawMap()">
-      <option value="dam" selected>シェケナダム</option>
-      <option value="ship">ドンブラコ</option>
-      <option value="house">シャケトバ</option>
-      <option value="lift">トキシラズ</option>
-      <option value="polar">ポラリス</option>
-    </select>
-    <select name="tide" onchange="drawMap()">
-      <option value="high">満潮</option>
-      <option value="mid" selected>普通</option>
-      <option value="low">干潮</option>
-    </select>
-    <input type="checkbox" name="always_low" value="1" checked="checked" onchange="drawMap()">常に干潮表示
-  </form>
+  <div class="container">
+    <form name="mapbox">
+      <select name="map" onchange="drawMap()">
+        <option value="dam" selected>シェケナダム</option>
+        <option value="ship">ドンブラコ</option>
+        <option value="house">シャケトバ</option>
+        <option value="lift">トキシラズ</option>
+        <option value="polar">ポラリス</option>
+      </select>
+      <select name="tide" onchange="drawMap()">
+        <option value="high">満潮</option>
+        <option value="mid" selected>普通</option>
+        <option value="low">干潮</option>
+      </select>
+      <input type="checkbox" name="always_low" value="1" checked="checked" onchange="drawMap()">常に干潮表示
+    </form>
 
-  <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
+    <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
 
-  <script>drawMap();</script>
+    <script>drawMap();</script>
+  </div>
 </body>
 </html>
