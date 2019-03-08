@@ -5,6 +5,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src="drawMap.js"></script>
+  <script type="text/javascript" src="rhill-voronoi-core.min.js"></script>
   <title>サンプル</title>
 </head>
 <body>
@@ -23,6 +24,7 @@
         <option value="low">干潮</option>
       </select>
       <input type="checkbox" name="always_low" value="1" checked="checked" onchange="drawMap()">常に干潮表示
+      <input type="checkbox" name="sencingRange" value="1" checked="checked" onchange="drawMap()">感知射程表示
     </form>
 
     <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>

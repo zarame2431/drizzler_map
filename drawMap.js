@@ -271,11 +271,13 @@ function drawMap() {
       ctx.fillStyle = 'rgba(119,69,133,0.35)';
       ctx.strokeStyle = 'rgba(119,69,133,1)';
       //攻撃範囲描画
-      for(let i=0;i<points.length;i++){
-        ctx.beginPath();
-        ctx.arc(points[i].x,points[i].y,201,0,Math.PI*2,false);
-        ctx.fill();
-        ctx.stroke();
+      if(document.mapbox.sencingRange.checked){
+        for(let i=0;i<points.length;i++){
+          ctx.beginPath();
+          ctx.arc(points[i].x,points[i].y,201,0,Math.PI*2,false);
+          ctx.fill();
+          ctx.stroke();
+        }
       }
     }
 
