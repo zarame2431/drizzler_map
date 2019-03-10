@@ -215,9 +215,9 @@ function drawMap() {
     break;
   }
 
-  let alwaysLow = document.mapbox.always_low.checked;
+  let lowMap = document.mapbox.lowMap.checked;
   let fileName;
-  if(alwaysLow){
+  if(lowMap){
     fileName = "figure/"+map+"/low.png";
   }else{
     fileName = "figure/"+map+"/"+tide+".png";
@@ -282,9 +282,16 @@ function drawMap() {
 
       //ボロノイ図描画
       if(document.mapbox.voronoi.checked){
+        var parkingPoint = document.parking.parkingPoint.selectedIndex;
+        var canJumpPoints = new Array();
+        for(let i=0;i<points.length;i++){
+          if(linkList.dam.mid[parkingPoint][i]==1){
+            canJumpPoints.push(points[i]);
+          }
+        }
         var vor = new VoronoiHandler();
         vor.init();
-        vor.compute(points);
+        vor.compute(canJumpPoints);
         vor.render();
       }
 
@@ -332,20 +339,21 @@ class VoronoiHandler {
       				nHalfedges = halfedges.length;
       			if (nHalfedges > 2) {
       				v = halfedges[0].getStartpoint();
-              ctx.globalAlpha = 1;
-              ctx.strokeStyle = 'black';
-              ctx.lineWidth = 1;
       				ctx.beginPath();
       				ctx.moveTo(v.x,v.y);
       				for (var iHalfedge=0; iHalfedge<nHalfedges; iHalfedge++) {
       					v = halfedges[iHalfedge].getEndpoint();
       					ctx.lineTo(v.x,v.y);
     					}
-              ctx.globalAlpha = 0.7;
 
+              ctx.globalAlpha = 0.7;
               ctx.fillStyle = colorPalette[i%colorPalette.length];
-      				//ctx.fillStyle = '#faa';
       				ctx.fill();
+
+              ctx.globalAlpha = 1;
+              ctx.strokeStyle = 'rgb(0,0,0)';
+              ctx.lineWidth = 1;
+              ctx.stroke();
     				}
           }
 
