@@ -172,8 +172,9 @@ let linkList={
 
 //};
 
+let colorPalette = ['black','gray','silver','white','blue','navy','teal','green','lime','aqua','yellow','red','fuchsia','olive','purple','maroon'];
+
 function drawMap() {
-  console.log("test");
   let map,tide,parkingMap,parkingList;
 
   switch(document.mapbox.map.selectedIndex){
@@ -215,7 +216,6 @@ function drawMap() {
   }
 
   let alwaysLow = document.mapbox.always_low.checked;
-  console.log(alwaysLow);
   let fileName;
   if(alwaysLow){
     fileName = "figure/"+map+"/low.png";
@@ -279,8 +279,77 @@ function drawMap() {
           ctx.stroke();
         }
       }
+
+      //ボロノイ図描画
+      if(document.mapbox.voronoi.checked){
+        var vor = new VoronoiHandler();
+        vor.init();
+        vor.compute(points);
+        vor.render();
+      }
+
     }
 
   }
 
 }
+
+class VoronoiHandler {
+    //voronoi: new Voronoi(),
+    //sites: [],
+    //diagram: null,
+    //canvas: null,
+    //bbox: {xl:0,xr:800,yt:0,yb:600},
+
+    init() {
+        this.voronoi = new Voronoi;
+        this.canvas = document.getElementById('cvs1');
+        this.bbox = {xl:0,xr:this.canvas.width,yt:0,yb:this.canvas.height}
+        }
+
+    compute(points) {
+        this.sites = points;
+        this.diagram = this.voronoi.compute(this.sites, this.bbox);
+        }
+
+    render() {
+        var ctx = this.canvas.getContext('2d');
+        if (!this.diagram) {return;}
+        var edges = this.diagram.edges,nEdges = edges.length,v;
+    		// how many sites do we have?
+    		var sites = this.sites,
+    			nSites = sites.length;
+    		if (!nSites) {return;}
+    		// highlight cell under mouse
+
+        for(var i=0;i<this.sites.length;i++){
+      		var cell = this.diagram.cells[this.sites[i].voronoiId];
+      		// there is no guarantee a Voronoi cell will exist for any
+      		// particular site
+
+      		if (cell) {
+      			var halfedges = cell.halfedges,
+      				nHalfedges = halfedges.length;
+      			if (nHalfedges > 2) {
+      				v = halfedges[0].getStartpoint();
+              ctx.globalAlpha = 1;
+              ctx.strokeStyle = 'black';
+              ctx.lineWidth = 1;
+      				ctx.beginPath();
+      				ctx.moveTo(v.x,v.y);
+      				for (var iHalfedge=0; iHalfedge<nHalfedges; iHalfedge++) {
+      					v = halfedges[iHalfedge].getEndpoint();
+      					ctx.lineTo(v.x,v.y);
+    					}
+              ctx.globalAlpha = 0.7;
+
+              ctx.fillStyle = colorPalette[i%colorPalette.length];
+      				//ctx.fillStyle = '#faa';
+      				ctx.fill();
+    				}
+          }
+
+  			}
+      }
+
+};
