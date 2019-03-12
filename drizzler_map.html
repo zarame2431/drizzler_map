@@ -24,7 +24,7 @@
         <option value="low">干潮</option>
       </select>
       <input type="checkbox" name="lowMap" value="1" checked="checked">常に干潮表示
-      <button type=button onclick="drawMap()">
+      <button type=button onclick="updateMap()">
         マップを更新
       </button>
     </form>
@@ -39,25 +39,13 @@
   <div class="container">
     <form name="parking">
       <select name="parkingPoint" id="parkingPoint" onchange="drawMap()">
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
-        <option>D</option>
-        <option>E</option>
-        <option>F</option>
-        <option>G</option>
-        <option>H</option>
-        <option>I</option>
-        <option>J</option>
-        <option>K</option>
-        <option>L</option>
       </select>
     </form>
   </div>
   <div class="container">
     <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
 
-    <script>drawMap();</script>
+    <script>updateMap();</script>
   </div>
 </body>
 </html>

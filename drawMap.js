@@ -179,8 +179,10 @@ let linkListAll={
 
 let colorPalette = ['black','gray','silver','white','blue','navy','teal','green','lime','aqua','yellow','red','fuchsia','olive','purple','maroon'];
 
-function drawMap() {
-  let map,tide,parkingMap,parkingList,linkList,linkMap;
+let parkingList,linkList,fileName;
+
+function updateMap() {
+  let map,tide,parkingMap,linkMap;
 
   switch(document.mapbox.map.selectedIndex){
     case 0:
@@ -228,7 +230,6 @@ function drawMap() {
     break;
   }
 
-
   var select = document.getElementById('parkingPoint');
 
 	while (0 < select.childNodes.length) {
@@ -245,13 +246,18 @@ function drawMap() {
   }
 
   let lowMap = document.mapbox.lowMap.checked;
-  let fileName;
   if(lowMap){
     fileName = "figure/"+map+"/low.png";
   }else{
     fileName = "figure/"+map+"/"+tide+".png";
   }
+  console.log(parkingList);
+  drawMap();
+}
 
+function drawMap() {
+
+  console.log(parkingList);
   let cvs = document.getElementById('cvs1');
   if(cvs.getContext){
     let ctx = cvs.getContext('2d');
@@ -268,6 +274,7 @@ function drawMap() {
       //座標割り出し、線描き、点描き、範囲描き、範囲塗り
       let points = new Array();
       //複数の駐車場のデータを読み取る
+      console.log(parkingList);
       for(let i=0;i<parkingList.x.length;i++){
         points.push(new point2d(parkingList.x[i],parkingList.y[i]));
       }
