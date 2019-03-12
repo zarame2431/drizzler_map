@@ -9,11 +9,12 @@ let parkingListAll={
       x: [670,769,924,825,950,675,602,497,457,414,525,432],
       y: [353,179,186,388,440,536,622,599,406,321,287,194]
     },
-    low:{
-      x: [100,150,200],
-      y: [30,60,90]
-    },
+
     high:{
+      x: [670,825,933,675,457,525],
+      y: [353,388,443,536,406,287]
+    },
+    low:{
       x: [100,150,200],
       y: [30,60,90]
     }
@@ -81,7 +82,7 @@ let parkingListAll={
 
 };
 
-let linkList={
+let linkListAll={
   dam:{
     mid:  [
             [0,1,0,1,0,1,0,0,1,0,1,0],
@@ -97,11 +98,15 @@ let linkList={
             [1,0,0,0,0,0,0,0,1,1,0,1],
             [0,0,0,0,0,0,0,0,0,1,1,0]
           ],
+    high: [
+            [0,1,1,1,1,1],
+            [1,0,1,1,0,0],
+            [1,1,0,1,0,0],
+            [1,1,1,0,1,0],
+            [1,0,0,1,0,1],
+            [1,0,0,0,1,0]
+          ],
     low:{
-      x: [100,150,200],
-      y: [30,60,90]
-    },
-    high:{
       x: [100,150,200],
       y: [30,60,90]
     }
@@ -175,28 +180,33 @@ let linkList={
 let colorPalette = ['black','gray','silver','white','blue','navy','teal','green','lime','aqua','yellow','red','fuchsia','olive','purple','maroon'];
 
 function drawMap() {
-  let map,tide,parkingMap,parkingList;
+  let map,tide,parkingMap,parkingList,linkList,linkMap;
 
   switch(document.mapbox.map.selectedIndex){
     case 0:
       map="dam";
       parkingMap = parkingListAll.dam;
+      linkMap = linkListAll.dam;
       break;
     case 1:
       map="ship";
       parkingMap = parkingListAll.ship;
+      linkMap = linkListAll.ship;
     break;
     case 2:
       map="house";
       parkingMap = parkingListAll.house;
+      linkMap = linkListAll.house;
     break;
     case 3:
       map="lift";
       parkingMap = parkingListAll.lift;
+      linkMap = linkListAll.lift;
     break;
     case 4:
       map="polar";
       parkingMap = parkingListAll.polar;
+      linkMap = linkListAll.polar;
     break;
   }
 
@@ -204,15 +214,34 @@ function drawMap() {
     case 0:
       tide="high";
       parkingList = parkingMap.high;
+      linkList = linkMap.high;
       break;
     case 1:
       tide="mid";
       parkingList = parkingMap.mid;
+      linkList = linkMap.mid;
     break;
     case 2:
       tide="low";
       parkingList = parkingMap.low;
+      linkList = linkMap.low;
     break;
+  }
+
+
+  var select = document.getElementById('parkingPoint');
+
+	while (0 < select.childNodes.length) {
+		select.removeChild(select.childNodes[0]);
+	}
+
+  var current = "A";
+  var currentCode = current.charCodeAt(0);
+  for(var i=0;i<parkingList.x.length;i++,currentCode++){
+    var alphabet = String.fromCharCode(currentCode);
+  	var option = document.createElement('option');
+  	option.text=alphabet;
+  	select.appendChild(option);
   }
 
   let lowMap = document.mapbox.lowMap.checked;
@@ -249,7 +278,7 @@ function drawMap() {
       ctx.beginPath();
       for(let i=0;i<points.length;i++){
         for(let j=i;j<points.length;j++){
-          if(linkList.dam.mid[i][j]==1){
+          if(linkList[i][j]==1){
             ctx.moveTo(points[i].x,points[i].y);
             ctx.lineTo(points[j].x,points[j].y);
             ctx.closePath();
@@ -271,7 +300,7 @@ function drawMap() {
       ctx.fillStyle = 'rgba(119,69,133,0.35)';
       ctx.strokeStyle = 'rgba(119,69,133,1)';
       //攻撃範囲描画
-      if(document.mapbox.sencingRange.checked){
+      if(document.mapoption.sencingRange.checked){
         for(let i=0;i<points.length;i++){
           ctx.beginPath();
           ctx.arc(points[i].x,points[i].y,201,0,Math.PI*2,false);
@@ -281,11 +310,11 @@ function drawMap() {
       }
 
       //ボロノイ図描画
-      if(document.mapbox.voronoi.checked){
+      if(document.mapoption.voronoi.checked){
         var parkingPoint = document.parking.parkingPoint.selectedIndex;
         var canJumpPoints = new Array();
         for(let i=0;i<points.length;i++){
-          if(linkList.dam.mid[parkingPoint][i]==1){
+          if(linkList[parkingPoint][i]==1){
             canJumpPoints.push(points[i]);
           }
         }
