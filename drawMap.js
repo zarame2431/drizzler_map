@@ -4,11 +4,16 @@ function point2d(x,y) {
 };
 
 let parkingListAll={
+  //[parkingName,x,y,linkNameList[]]
   dam:{
-    high:{
-      x: [670,825,933,675,457,525],
-      y: [353,388,443,536,406,287]
-    },
+    high: [
+            [0,'A',670,353,[1,2,3,4,5]],
+            [1,'D',825,388,[0,2,3]],
+            [2,'E',950,440,[0,1,3]],
+            [3,'F',675,536,[0,1,2,4]],
+            [4,'I',457,406,[0,3,5]],
+            [5,'K',525,287,[0,4]]
+          ],
     mid:{
       x: [670,769,924,825,950,675,602,497,457,414,525,432],
       y: [353,179,186,388,440,536,622,599,406,321,287,194]
@@ -40,8 +45,8 @@ let parkingListAll={
       y: [485,426,335,328,276,117,233,49,102,307,315,390,437,502,571,718,673,549,656,568]
     },
     low:{
-      x: [317,313,139],
-      y: [563,638,712]
+      x: [317,313,139,184,68,118,231,318,427,414],
+      y: [563,638,712,571,576,359,330,424,499,611]
     },
     high:{
       x: [100,150,200],
@@ -312,6 +317,7 @@ function updateMap() {
   }else{
     fileName = "figure/"+map+"/"+tide+".png";
   }
+
   drawMap();
 }
 
@@ -352,13 +358,21 @@ function drawMap() {
       }
       ctx.stroke();
 
-      //点をプロット、記号も入力？
+      //点をプロット
       ctx.fillStyle = 'rgba(56,97,158,1)';
 
       for(let i=0;i<points.length;i++){
         ctx.beginPath();
         ctx.arc(points[i].x,points[i].y,13,0,Math.PI*2,false);
         ctx.fill();
+      }
+
+      //記号を入力
+      ctx.font= 'bold 30px Century Gothic';
+      ctx.textAlign = 'center';
+      ctx.fillStyle='rgb(0,0,128)';
+      for(let i=0;i<points.length;i++){
+        ctx.fillText('A',points[i].x,points[i].y + 40);
       }
 
 
@@ -388,6 +402,13 @@ function drawMap() {
         vor.compute(canJumpPoints);
         vor.render();
       }
+
+
+      ctx.font= 'bold 30px Century Gothic';
+      ctx.textAlign = 'left';
+      ctx.fillStyle='rgb(0,0,128)';
+      ctx.fillText('画像は製作中のものです',0,30);
+
 
     }
 
