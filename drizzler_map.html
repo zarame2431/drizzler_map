@@ -32,14 +32,16 @@
 
   <div class="container">
     <form name="mapoption">
-      <input type="checkbox" name="sencingRange" value="1" onchange="drawMap()">感知射程表示
-      <input type="checkbox" name="voronoi" value="1" onchange="drawMap()">ボロノイ図表示
-    </form>
-  </div>
-  <div class="container">
-    <form name="parking">
+      注目する駐車場
       <select name="parkingPoint" id="parkingPoint" onchange="drawMap()">
-      </select>
+      </select><br>
+      感知射程表示:
+      <select name="sencingRange" onchange="drawMap()">
+        <option>全て</option>
+        <option>1つだけ</option>
+        <option>隣だけ</option>
+      </select><br>
+      <input type="checkbox" name="voronoi" value="1" onchange="drawMap()">ボロノイ図表示
     </form>
   </div>
   <div class="container">

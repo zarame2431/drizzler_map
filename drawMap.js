@@ -190,7 +190,7 @@ let parkingListAll={
 
           ],
     high: [
-      
+
           ]
 
   }
@@ -329,23 +329,40 @@ function drawMap() {
         ctx.fillText(points[i].getName(),points[i].getX(),points[i].getY() + 40);
       }
 
+      //攻撃範囲描画
+      var parkingNum = document.mapoption.parkingPoint.selectedIndex;
+      var linkList = points[parkingNum].getLink();
 
       ctx.fillStyle = 'rgba(119,69,133,0.35)';
       ctx.strokeStyle = 'rgba(119,69,133,1)';
-      //攻撃範囲描画
-      if(document.mapoption.sencingRange.checked){
-        for(let i=0;i<points.length;i++){
+
+      switch(document.mapoption.sencingRange.selectedIndex){
+        case 0://全ての感知射程を描画
+          for(let i=0;i<points.length;i++){
+            ctx.beginPath();
+            ctx.arc(points[i].getX(),points[i].getY(),201,0,Math.PI*2,false);
+            ctx.fill();
+            ctx.stroke();
+          }
+          break;
+        case 1://1つだけの感知射程を描画
           ctx.beginPath();
-          ctx.arc(points[i].getX(),points[i].getY(),201,0,Math.PI*2,false);
+          ctx.arc(points[parkingNum].getX(),points[parkingNum].getY(),201,0,Math.PI*2,false);
           ctx.fill();
           ctx.stroke();
-        }
+          break;
+        case 2://隣接した駐車場の感知射程を表示
+          for(let i=0;i<linkList.length;i++){
+            ctx.beginPath();
+            ctx.arc(points[linkList[i]].getX(),points[linkList[i]].getY(),201,0,Math.PI*2,false);
+            ctx.fill();
+            ctx.stroke();
+          }
+          break;
       }
 
       //ボロノイ図描画
       if(document.mapoption.voronoi.checked){
-        var parkingNum = document.parking.parkingPoint.selectedIndex;
-        var linkList = points[parkingNum].getLink();
         var canJumpPoints = new Array();
         for(let i=0;i<linkList.length;i++){
           //厳密にはidと比較したいかも
