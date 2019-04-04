@@ -351,19 +351,21 @@ function drawMap() {
             ctx.stroke();
           }
           break;
-        case 1://1つだけの感知射程を描画
-          ctx.beginPath();
-          ctx.arc(points[parkingNum].getX(),points[parkingNum].getY(),201,0,Math.PI*2,false);
-          ctx.fill();
-          ctx.stroke();
-          break;
-        case 2://隣接した駐車場の感知射程を表示
+        case 1://隣接した駐車場の感知射程を表示
           for(let i=0;i<linkList.length;i++){
             ctx.beginPath();
             ctx.arc(points[linkList[i]].getX(),points[linkList[i]].getY(),201,0,Math.PI*2,false);
             ctx.fill();
             ctx.stroke();
           }
+          break;
+        case 2://1つだけの感知射程を描画
+          ctx.beginPath();
+          ctx.arc(points[parkingNum].getX(),points[parkingNum].getY(),201,0,Math.PI*2,false);
+          ctx.fill();
+          ctx.stroke();
+          break;
+        case 3://非表示
           break;
       }
 
