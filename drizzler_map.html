@@ -3,51 +3,97 @@
 <head>
   <meta charset="utf-8">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="drawMap.js"></script>
-  <script src="rhill-voronoi-core.min.js"></script>
-  <title>サンプル</title>
+  <link href="https://simonwep.github.io/pickr/dist/pickr.min.css"  rel="stylesheet" >
+  <title>コウモリマップ</title>
 </head>
 <body>
   <div class="container">
     <form name="mapbox">
-      <select name="map">
+      <select name="map" id="map">
         <option value="dam" selected>シェケナダム</option>
         <option value="ship">ドンブラコ</option>
         <option value="house">シャケトバ</option>
         <option value="lift">トキシラズ</option>
         <option value="polar">ポラリス</option>
       </select>
-      <select name="tide">
+      <select name="tide" id="tide">
         <option value="high">満潮</option>
         <option value="mid" selected>普通</option>
         <option value="low">干潮</option>
       </select>
-      <input type="checkbox" name="lowMap" value="1" checked="checked">常に干潮表示
-      <button type=button onclick="updateMap()">
-        マップを更新
-      </button>
+      <input type="checkbox" name="lowMap" checked="checked">常に干潮表示
     </form>
   </div>
 
   <div class="container">
     <form name="mapoption">
       注目する駐車場
-      <select name="parkingPoint" id="parkingPoint" onchange="drawMap()">
+      <select name="parkingPoint" id="parkingPoint">
       </select><br>
       感知射程表示:
-      <select name="sencingRange" onchange="drawMap()">
+      <select name="sencingRange" id="sencingRange">
         <option>全て</option>
         <option>1つだけ</option>
         <option>隣だけ</option>
       </select><br>
-      <input type="checkbox" name="voronoi" value="1" onchange="drawMap()">ボロノイ図表示
+      <input type="checkbox" name="voronoi" id="voronoi">ボロノイ図表示
     </form>
+    <p>
+    <div class="color-picker-parking"></div>
+    <div class="color-picker-link"></div>
+    </p>
+    <p>
+    <div class="color-picker-voronoi1"></div>
+    </p>
   </div>
   <div class="container">
     <canvas id="cvs1" width="400" height="300">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
-
-    <script>updateMap();</script>
   </div>
+
+  <script src="https://simonwep.github.io/pickr/dist/pickr.min.js"></script>
+  <script src="drawMap.js"></script>
+  <script src="rhill-voronoi-core.min.js"></script>
+
+
+  <script>
+  const pickr = new Pickr({
+      el: '.color-picker-parking',
+
+      default: '#42445A',
+
+      swatches: [
+          'rgba(244, 67, 54, 1)',
+          'rgba(233, 30, 99, 0.95)',
+          'rgba(156, 39, 176, 0.9)',
+          'rgba(103, 58, 183, 0.85)',
+          'rgba(63, 81, 181, 0.8)',
+          'rgba(33, 150, 243, 0.75)',
+          'rgba(3, 169, 244, 0.7)',
+          'rgba(0, 188, 212, 0.7)',
+          'rgba(0, 150, 136, 0.75)',
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(139, 195, 74, 0.85)',
+          'rgba(205, 220, 57, 0.9)',
+          'rgba(255, 235, 59, 0.95)',
+          'rgba(255, 193, 7, 1)'
+      ],
+
+      components: {
+
+          preview: true,
+          opacity: true,
+          hue: true,
+
+          interaction: {
+              hex: true,
+              rgba: true,
+              hsva: true,
+              input: true,
+              clear: true,
+              save: true
+          }
+      }
+  });
+  </script>
 </body>
 </html>

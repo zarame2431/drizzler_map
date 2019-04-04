@@ -196,14 +196,20 @@ let parkingListAll={
   }
 
 };
-//function makeParkingList() {
-
-//};
 
 let colorPalette = ['black','gray','silver','white','blue','navy','teal','green','lime','aqua','yellow','red','fuchsia','olive','purple','maroon'];
 
 let parkingList,fileName;
 
+window.onload = function()  {
+  document.getElementById('map').onchange=updateMap;
+  document.getElementById('tide').onchange=updateMap;
+  document.getElementById('parkingPoint').onchange=drawMap;
+  document.getElementById('sencingRange').onchange=drawMap;
+  document.getElementById('voronoi').onchange=drawMap;
+
+  updateMap();
+}
 function updateMap() {
   let map,tide,parkingMap,linkMap;
 
