@@ -197,9 +197,25 @@ let parkingListAll={
 
 };
 
-let colorPalette = ['black','gray','silver','white','blue','navy','teal','green','lime','aqua','yellow','red','fuchsia','olive','purple','maroon'];
+let defaultColorPalette = [ 'rgba(244, 67, 54, 0.7)',
+                            'rgba(233, 30, 99, 0.7)',
+                            'rgba(156, 39, 176, 0.7)',
+                            'rgba(103, 58, 183, 0.7)',
+                            'rgba(63, 81, 181, 0.7)',
+                            'rgba(33, 150, 243, 0.7)',
+                            'rgba(3, 169, 244, 0.7)',
+                            'rgba(0, 188, 212, 0.7)',
+                            'rgba(0, 150, 136, 0.7)',
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(139, 195, 74, 0.7)',
+                            'rgba(205, 220, 57, 0.7)',
+                            'rgba(255, 235, 59, 0.7)',
+                            'rgba(255, 193, 7, 0.7)'];
+let customizedColorPalette = [];
+Object.assign(customizedColorPalette,defaultColorPalette);
 
 let parkingList,fileName;
+let pickr = new Array();
 
 window.onload = function()  {
   document.getElementById('map').onchange=updateMap;
@@ -208,8 +224,56 @@ window.onload = function()  {
   document.getElementById('sencingRange').onchange=drawMap;
   document.getElementById('voronoi').onchange=drawMap;
 
+  let div_voronoi = document.getElementById('picker-voronoi');
+  let paletteNum =10;
+
+  for(let i=0;i<paletteNum;i++){
+    let div = document.createElement('div');
+    let className = 'color-picker-voronoi'+i;
+    div.classList = className;
+    div_voronoi.appendChild(div);
+    pickr.push(new Pickr({
+        el: '.'+className,
+
+        default: defaultColorPalette[i],
+
+        swatches: defaultColorPalette,
+
+        components: {
+
+            preview: true,
+            opacity: true,
+            hue: true,
+
+            interaction: {
+                hex: true,
+                rgba: true,
+                hsva: true,
+                input: true,
+                //clear: true,
+                save: true
+            }
+        },
+        strings: {
+            save: '保存',  // Default for save button
+            //clear: 'Clear' // Default for clear button
+        }
+    }));
+    pickr[i].on('save', (hsva,instance) => {
+      updatePalette();
+      drawMap();
+    });
+  }
+
   updateMap();
 }
+
+function updatePalette(){
+  for(let i=0;i<pickr.length;i++){
+    customizedColorPalette[i]=pickr[i].getColor().toRGBA();
+  }
+}
+
 function updateMap() {
   let map,tide,parkingMap,linkMap;
 
@@ -466,8 +530,8 @@ class VoronoiHandler {
       					ctx.lineTo(v.x,v.y);
     					}
 
-              ctx.globalAlpha = 0.7;
-              ctx.fillStyle = colorPalette[i%colorPalette.length];
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = customizedColorPalette[i];
       				ctx.fill();
 
               ctx.globalAlpha = 1;
