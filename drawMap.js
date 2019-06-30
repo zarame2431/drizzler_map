@@ -228,10 +228,11 @@ window.onload = function()  {
   let paletteNum =10;
 
   for(let i=0;i<paletteNum;i++){
-    let div = document.createElement('div');
+    let palette = document.createElement('div');
     let className = 'color-picker-voronoi'+i;
-    div.classList = className;
-    div_voronoi.appendChild(div);
+    palette.classList.add(className);
+    div_voronoi.appendChild(palette);
+    console.log(div_voronoi);
     pickr.push(new Pickr({
         el: '.'+className,
 
@@ -450,7 +451,7 @@ function drawMap() {
       ctx.font= 'bold 30px Century Gothic';
       ctx.textAlign = 'left';
       ctx.fillStyle='rgb(0,0,128)';
-      ctx.fillText('画像は製作中のものです',0,30);
+      ctx.fillText('コウモリマップβ',0,30);
 
 
     }
