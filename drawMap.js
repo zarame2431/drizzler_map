@@ -546,3 +546,17 @@ class VoronoiHandler {
       }
 
 };
+
+// canvas上のイメージを保存
+function saveCanvas()
+{
+	var canvas = document.getElementById('cvs1');
+	//アンカータグを作成
+	var a = document.createElement('a');
+	//canvasをJPEG変換し、そのBase64文字列をhrefへセット
+	a.href = canvas.toDataURL('image/png', 0.85);
+	//ダウンロード時のファイル名を指定
+	a.download = 'download.png';
+	//クリックイベントを発生させる
+	a.click();
+}
