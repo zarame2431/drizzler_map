@@ -177,7 +177,22 @@ let parkingListAll={
           ],
 
     low:  [
-
+            [0,'A',667,246,[1,13]],
+            [1,'B',708,353,[0,2,3,4]],
+            [2,'C',570,367,[1,14]],
+            [3,'D',827,362,[1,4,5]],
+            [4,'E',776,457,[1,3,5]],
+            [5,'F',920,409,[3,4,6]],
+            [6,'G',953,337,[5,7]],
+            [7,'H',949,171,[6,8]],
+            [8,'I',920,108,[7,9,10]],
+            [9,'J',881,29,[8,10]],
+            [10,'K',813,89,[8,9,11,13]],
+            [11,'L',704,28,[10,12]],
+            [12,'M',695,126,[11,13,14]],
+            [13,'N',771,170,[0,10,12]],
+            [14,'O',569,201,[2,12,15]],
+            [15,'P',570,73,[14]]
           ]
 
   },
@@ -218,7 +233,6 @@ let customizedColorPalette = [];
 let color_parking = defaultColorParking;
 let color_link = defaultColorLink;
 let color_range = defaultColorRange;
-Object.assign(customizedColorPalette,defaultColorPalette);
 
 let parkingList,fileName;
 let pickr_parking,pickr_link,pickr_range;
@@ -289,6 +303,7 @@ function updatePalette(){
   color_parking = pickr_parking.getColor().toRGBA();
   color_link = pickr_link.getColor().toRGBA();
   color_range = pickr_range.getColor().toRGBA();
+
   for(let i=0;i<pickr.length;i++){
     customizedColorPalette[i]=pickr[i].getColor().toRGBA();
   }
@@ -372,7 +387,6 @@ function updateMap() {
 
 
     pickr.push(createPickr(className,defaultColorPalette[i%defaultColorPalette.length]));
-
   }
 /*
   var current = "A";
@@ -411,6 +425,7 @@ function drawMap() {
       ctx.drawImage(img, 0, 0, img.width, img.height);
 
 
+      updatePalette();
       //座標割り出し、線描き、点描き、範囲描き、範囲塗り
       let points = new Array();
       //複数の駐車場のデータを読み取る
@@ -487,13 +502,15 @@ function drawMap() {
       //ボロノイ図描画
       if(document.mapoption.voronoi.checked){
         var canJumpPoints = new Array();
+        var colorPalette = new Array();
         for(let i=0;i<linkList.length;i++){
           //厳密にはidと比較したいかも
           canJumpPoints.push(new point2d(points[linkList[i]].getX(),points[linkList[i]].getY()));
+          colorPalette.push(customizedColorPalette[linkList[i]]);
         }
         var vor = new VoronoiHandler();
         vor.init();
-        vor.compute(canJumpPoints);
+        vor.compute(canJumpPoints,colorPalette);
         vor.render();
       }
 
@@ -540,7 +557,6 @@ function createPickr(className,defaultColor){
     }
   });
   pickr.on('save', (hsva,instance) => {
-  updatePalette();
   drawMap();
   });
   return pickr;
@@ -585,8 +601,9 @@ class VoronoiHandler {
         this.bbox = {xl:0,xr:this.canvas.width,yt:0,yb:this.canvas.height}
         }
 
-    compute(points) {
+    compute(points,colors) {
         this.sites = points;
+        this.colors = colors;
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
         }
 
@@ -618,7 +635,7 @@ class VoronoiHandler {
     					}
 
               ctx.globalAlpha = 1;
-              ctx.fillStyle = customizedColorPalette[i];
+              ctx.fillStyle = this.colors[i];
       				ctx.fill();
 
               ctx.globalAlpha = 1;
