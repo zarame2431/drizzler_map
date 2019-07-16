@@ -1,0 +1,13 @@
+.palette_set {
+  border: 1px solid #e5ffee;
+  background-color: #e5ffee;
+}
+
+.palette_name {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}

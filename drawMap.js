@@ -224,53 +224,8 @@ window.onload = function()  {
   document.getElementById('sencingRange').onchange=drawMap;
   document.getElementById('voronoi').onchange=drawMap;
 
-  let div_voronoi = document.getElementById('picker-voronoi');
-  let paletteNum =10;
-
   updateMap();
 
-  for(let i=0;i<parkingList.length;i++){
-    //let palette_set = document.createElement('div');
-    let palette = document.createElement('div');
-    let className = 'color-picker-voronoi'+i;
-    palette.classList.add(className);
-    //div_voronoi.appendChild(palette_set);
-    div_voronoi.appendChild(palette);
-    //console.log(div_voronoi);
-
-
-    pickr.push(new Pickr({
-        el: '.'+className,
-
-        default: defaultColorPalette[i],
-
-        swatches: defaultColorPalette,
-
-        components: {
-
-            preview: true,
-            opacity: true,
-            hue: true,
-
-            interaction: {
-                hex: true,
-                rgba: true,
-                hsva: true,
-                input: true,
-                //clear: true,
-                save: true
-            }
-        },
-        strings: {
-            save: '保存',  // Default for save button
-            //clear: 'Clear' // Default for clear button
-        }
-    }));
-    pickr[i].on('save', (hsva,instance) => {
-      updatePalette();
-      drawMap();
-    });
-  }
 }
 
 function updatePalette(){
@@ -328,8 +283,65 @@ function updateMap() {
 
   for(var i=0;i<parkingList.length;i++){
   	var option = document.createElement('option');
-  	option.text=parkingList[i][1];
+  	option.text = parkingList[i][1];
   	select.appendChild(option);
+  }
+
+  let div_voronoi = document.getElementById('picker-voronoi');
+  while( div_voronoi.firstChild ){
+  div_voronoi.removeChild( div_voronoi.firstChild );
+  }
+  pickr = new Array();
+
+  for(let i=0;i<parkingList.length;i++){
+    let palette_set = document.createElement('div');
+    let palette_name = document.createElement('div');
+    let palette_pickr = document.createElement('div');
+
+    palette_set.appendChild(palette_name);
+    palette_set.appendChild(palette_pickr);
+    div_voronoi.appendChild(palette_set);
+
+    palette_name.textContent = parkingList[i][1];
+
+    palette_set.classList.add('palette_set');
+    palette_name.classList.add('palette_name');
+    let className = 'color-picker-voronoi'+i;
+    palette_pickr.classList.add(className);
+    //console.log(div_voronoi);
+
+
+    pickr.push(new Pickr({
+        el: '.'+className,
+
+        default: defaultColorPalette[i%defaultColorPalette.length],
+
+        swatches: defaultColorPalette,
+
+        components: {
+
+            preview: true,
+            opacity: true,
+            hue: true,
+
+            interaction: {
+                hex: true,
+                rgba: true,
+                hsva: true,
+                input: true,
+                //clear: true,
+                save: true
+            }
+        },
+        strings: {
+            save: '保存',  // Default for save button
+            //clear: 'Clear' // Default for clear button
+        }
+    }));
+    pickr[i].on('save', (hsva,instance) => {
+      updatePalette();
+      drawMap();
+    });
   }
 /*
   var current = "A";
