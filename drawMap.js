@@ -197,6 +197,9 @@ let parkingListAll={
 
 };
 
+let defaultColorParking = 'rgba(56,97,158,1)';
+let defaultColorLink = 'rgba(0,97,0,1)';
+let defaultColorRange = 'rgba(119,69,133,0.35)';
 let defaultColorPalette = [ 'rgba(244, 67, 54, 0.7)',
                             'rgba(233, 30, 99, 0.7)',
                             'rgba(156, 39, 176, 0.7)',
@@ -212,9 +215,13 @@ let defaultColorPalette = [ 'rgba(244, 67, 54, 0.7)',
                             'rgba(255, 235, 59, 0.7)',
                             'rgba(255, 193, 7, 0.7)'];
 let customizedColorPalette = [];
+let color_parking = defaultColorParking;
+let color_link = defaultColorLink;
+let color_range = defaultColorRange;
 Object.assign(customizedColorPalette,defaultColorPalette);
 
 let parkingList,fileName;
+let pickr_parking,pickr_link,pickr_range;
 let pickr = new Array();
 
 window.onload = function()  {
@@ -224,11 +231,64 @@ window.onload = function()  {
   document.getElementById('sencingRange').onchange=drawMap;
   document.getElementById('voronoi').onchange=drawMap;
 
+  let palette_set,palette_name,palette_pickr;
+  //parking-pickr
+  let div_parking = document.getElementById('color-picker-parking');
+  palette_set = document.createElement('div');
+  palette_name = document.createElement('div');
+  palette_pickr = document.createElement('div');
+
+  palette_set.appendChild(palette_name);
+  palette_set.appendChild(palette_pickr);
+  div_parking.appendChild(palette_set);
+
+  palette_name.textContent = '駐車場';
+  palette_set.classList.add('palette_set');
+  palette_name.classList.add('palette_name');
+  let className = 'picker-parking';
+  palette_pickr.classList.add(className);
+  pickr_parking = createPickr(className,defaultColorParking);
+  //link-pickr
+  let div_link = document.getElementById('color-picker-link');
+  palette_set = document.createElement('div');
+  palette_name = document.createElement('div');
+  palette_pickr = document.createElement('div');
+
+  palette_set.appendChild(palette_name);
+  palette_set.appendChild(palette_pickr);
+  div_link.appendChild(palette_set);
+
+  palette_name.textContent = 'リンク';
+  palette_set.classList.add('palette_set');
+  palette_name.classList.add('palette_name');
+  className = 'picker-link';
+  palette_pickr.classList.add(className);
+  pickr_link = createPickr(className,defaultColorLink);
+  //range-pickr
+  let div_range = document.getElementById('color-picker-range');
+  palette_set = document.createElement('div');
+  palette_name = document.createElement('div');
+  palette_pickr = document.createElement('div');
+
+  palette_set.appendChild(palette_name);
+  palette_set.appendChild(palette_pickr);
+  div_range.appendChild(palette_set);
+
+  palette_name.textContent = '射程';
+  palette_set.classList.add('palette_set');
+  palette_name.classList.add('palette_name');
+  className = 'picker-range';
+  palette_pickr.classList.add(className);
+  pickr_range = createPickr(className,defaultColorRange);
+
   updateMap();
 
 }
 
 function updatePalette(){
+  color_parking = pickr_parking.getColor().toRGBA();
+  color_link = pickr_link.getColor().toRGBA();
+  color_range = pickr_range.getColor().toRGBA();
   for(let i=0;i<pickr.length;i++){
     customizedColorPalette[i]=pickr[i].getColor().toRGBA();
   }
@@ -311,37 +371,8 @@ function updateMap() {
     //console.log(div_voronoi);
 
 
-    pickr.push(new Pickr({
-        el: '.'+className,
+    pickr.push(createPickr(className,defaultColorPalette[i%defaultColorPalette.length]));
 
-        default: defaultColorPalette[i%defaultColorPalette.length],
-
-        swatches: defaultColorPalette,
-
-        components: {
-
-            preview: true,
-            opacity: true,
-            hue: true,
-
-            interaction: {
-                hex: true,
-                rgba: true,
-                hsva: true,
-                input: true,
-                //clear: true,
-                save: true
-            }
-        },
-        strings: {
-            save: '保存',  // Default for save button
-            //clear: 'Clear' // Default for clear button
-        }
-    }));
-    pickr[i].on('save', (hsva,instance) => {
-      updatePalette();
-      drawMap();
-    });
   }
 /*
   var current = "A";
@@ -386,8 +417,8 @@ function drawMap() {
       for(let i=0;i<parkingList.length;i++){
         points.push(new Parking(parkingList[i][0],parkingList[i][1],parkingList[i][2],parkingList[i][3],parkingList[i][4]));
       }
-      //線を引く
-      ctx.strokeStyle = 'rgba(0,97,0,1)';
+      //リンクを引く
+      ctx.strokeStyle = color_link;
       ctx.lineWidth = 3;
 
       ctx.beginPath();
@@ -402,8 +433,8 @@ function drawMap() {
       }
       ctx.stroke();
 
-      //点をプロット
-      ctx.fillStyle = 'rgba(56,97,158,1)';
+      //駐車場をプロット
+      ctx.fillStyle = color_parking;
 
       for(let i=0;i<points.length;i++){
         ctx.beginPath();
@@ -423,7 +454,7 @@ function drawMap() {
       var parkingNum = document.mapoption.parkingPoint.selectedIndex;
       var linkList = points[parkingNum].getLink();
 
-      ctx.fillStyle = 'rgba(119,69,133,0.35)';
+      ctx.fillStyle = color_range;
       ctx.strokeStyle = 'rgba(119,69,133,1)';
 
       switch(document.mapoption.sencingRange.selectedIndex){
@@ -477,6 +508,42 @@ function drawMap() {
 
   }
 
+}
+
+function createPickr(className,defaultColor){
+  className = '.'+className;
+  let pickr = new Pickr({
+    el: className,
+
+    default: defaultColor,
+
+    swatches: defaultColorPalette,
+
+    components: {
+
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        interaction: {
+            hex: true,
+            rgba: true,
+            hsva: true,
+            input: true,
+            //clear: true,
+            save: true
+        }
+    },
+    strings: {
+        save: '保存',  // Default for save button
+        //clear: 'Clear' // Default for clear button
+    }
+  });
+  pickr.on('save', (hsva,instance) => {
+  updatePalette();
+  drawMap();
+  });
+  return pickr;
 }
 
 class Parking {

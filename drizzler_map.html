@@ -36,7 +36,7 @@
     <form name="mapoption">
       注目する駐車場
       <select name="parkingPoint" id="parkingPoint">
-      </select><br>
+      </select>
       感知射程表示:
       <select name="sencingRange" id="sencingRange">
         <option>全て</option>
@@ -46,10 +46,11 @@
       </select><br>
       <input type="checkbox" name="voronoi" id="voronoi">ボロノイ図表示
     </form>
-    <p>
-      <div class="color-picker-parking"></div>
-      <div class="color-picker-link"></div>
-    </p>
+    <div class="row">
+      <div id="color-picker-parking"></div>
+      <div id="color-picker-link"></div>
+      <div id="color-picker-range"></div>
+    </div>
     <div class="row" id="picker-voronoi">
     </div>
   </div>
