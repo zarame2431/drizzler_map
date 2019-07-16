@@ -227,12 +227,18 @@ window.onload = function()  {
   let div_voronoi = document.getElementById('picker-voronoi');
   let paletteNum =10;
 
-  for(let i=0;i<paletteNum;i++){
+  updateMap();
+
+  for(let i=0;i<parkingList.length;i++){
+    //let palette_set = document.createElement('div');
     let palette = document.createElement('div');
     let className = 'color-picker-voronoi'+i;
     palette.classList.add(className);
+    //div_voronoi.appendChild(palette_set);
     div_voronoi.appendChild(palette);
-    console.log(div_voronoi);
+    //console.log(div_voronoi);
+
+
     pickr.push(new Pickr({
         el: '.'+className,
 
@@ -265,8 +271,6 @@ window.onload = function()  {
       drawMap();
     });
   }
-
-  updateMap();
 }
 
 function updatePalette(){
@@ -337,12 +341,15 @@ function updateMap() {
   	select.appendChild(option);
   }
 */
+  /*
   let lowMap = document.mapbox.lowMap.checked;
   if(lowMap){
     fileName = "figure/"+map+"/low.png";
   }else{
     fileName = "figure/"+map+"/"+tide+".png";
   }
+  */
+  fileName = "figure/"+map+"/low.png";
 
   drawMap();
 }

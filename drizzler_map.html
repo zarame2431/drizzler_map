@@ -7,6 +7,10 @@
   <title>コウモリマップ</title>
 </head>
 <body>
+  <div class="notice">
+    <p>トキシラズ干潮、ポラリス全潮位はデータ未入力</p>
+    <p>シェケナダム干潮はデータの信用性が低い</p>
+  </div>
   <div class="container">
     <form name="mapbox">
       <select name="map" id="map">
@@ -21,7 +25,9 @@
         <option value="mid" selected>普通</option>
         <option value="low">干潮</option>
       </select>
+      <!--
       <input type="checkbox" name="lowMap" checked="checked">常に干潮表示
+      -->
     </form>
   </div>
 
