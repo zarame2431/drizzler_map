@@ -2,17 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
+  <style>@import 'node_modules/@simonwep/pickr/dist/themes/classic.min.css';</style>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
   <link rel="stylesheet" href="drizzler_map.css"/>
   <title>コウモリマップ</title>
 </head>
 <body>
-  <div class="container" "notice">
-    <p>トキシラズ干潮、ポラリス全潮位はデータ未入力</p>
-    <p>シェケナダム干潮はデータの信用性が低い</p>
+  <div class="container notice">
+    <p>ダム干潮は不完全なため参考にしないことをおすすめします<br>データは予告なく微修正が入る可能性があります<br>大きな修正はしない...予定</p>
   </div>
-  <div class="container">
+  <div class="container mapselect">
     <form name="mapbox">
       <select name="map" id="map">
         <option value="dam" selected>シェケナダム</option>

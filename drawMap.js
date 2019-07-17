@@ -29,10 +29,10 @@ let parkingListAll={
             [11,'L',432,194,[9,10]]
           ],
     low:  [
-            [0,'a',231,230,[1,2,3,4,5,7]],
+            [0,'a',240,246,[1,2,3,4,5,7]],
             [1,'b',290,407,[0,2,3,7]],
             [2,'c',105,392,[0,1]],
-            [3,'d',158,231,[0,1]],
+            [3,'d',135,211,[0,1]],
             [4,'e',270,57,[0,4]],
             [5,'f',362,120,[0,4,6,7]],
             [6,'g',568,208,[5,7]],
@@ -40,7 +40,6 @@ let parkingListAll={
             [8,'i',459,408,[7]]
           ]
   },
-
   ship:{
     high: [
             [0,'A',619,467,[1,2]],
@@ -52,7 +51,6 @@ let parkingListAll={
             [6,'G',222,414,[4,5,7]],
             [7,'H',159,298,[5,6]]
           ],
-
     mid:  [
             [0,'A',619,467,[1,2]],
             [1,'B',485,378,[0,2,3,19]],
@@ -77,7 +75,6 @@ let parkingListAll={
             [20,'U',524,220,[19,21]],
             [21,'V',618,244,[20]]
           ],
-
     low:  [
             [0,'a',724,219,[1,5,10,11]],
             [1,'b',867,103,[0,2]],
@@ -93,7 +90,6 @@ let parkingListAll={
             [11,'l',619,242,[0]]
           ]
   },
-
   house:{
     high: [
             [0,'A',594,485,[1,7]],
@@ -145,7 +141,6 @@ let parkingListAll={
             [13,'R',599,548,[12,14]],
             [14,'S',575,656,[9,12,13]]
           ]
-
   },
 
   lift:{
@@ -175,7 +170,6 @@ let parkingListAll={
             [12,'M',469,345,[0,9,11,13]],
             [13,'N',512,458,[12]]
           ],
-
     low:  [
             [0,'A',667,246,[1,13]],
             [1,'B',708,353,[0,2,3,4]],
@@ -194,7 +188,6 @@ let parkingListAll={
             [14,'O',569,201,[2,12,15]],
             [15,'P',570,73,[14]]
           ]
-
   },
 
   polar:{
@@ -228,7 +221,6 @@ let parkingListAll={
             [17,'R',184,251,[15,18]],
             [18,'S',73,260,[17,19]],
             [19,'T',69,370,[3,18]]
-
           ],
     low:  [
             [0,'A',716,334,[1,2,8,10]],
@@ -244,9 +236,7 @@ let parkingListAll={
             [10,'K',633,193,[0,9,11]],
             [11,'L',523,281,[2,10]]
           ]
-
   }
-
 };
 
 let defaultColorParking = 'rgba(56,97,158,1)';
@@ -333,7 +323,6 @@ window.onload = function()  {
   pickr_range = createPickr(className,defaultColorRange);
 
   updateMap();
-
 }
 
 function updatePalette(){
@@ -394,9 +383,9 @@ function updateMap() {
 	}
 
   for(var i=0;i<parkingList.length;i++){
-  	var option = document.createElement('option');
-  	option.text = parkingList[i][1];
-  	select.appendChild(option);
+    var option = document.createElement('option');
+    option.text = parkingList[i][1];
+    select.appendChild(option);
   }
 
   let div_voronoi = document.getElementById('picker-voronoi');
@@ -420,31 +409,9 @@ function updateMap() {
     palette_name.classList.add('palette_name');
     let className = 'color-picker-voronoi'+i;
     palette_pickr.classList.add(className);
-    //console.log(div_voronoi);
-
-
     pickr.push(createPickr(className,defaultColorPalette[i%defaultColorPalette.length]));
   }
-/*
-  var current = "A";
-  var currentCode = current.charCodeAt(0);
-  for(var i=0;i<parkingList.length;i++,currentCode++){
-    var alphabet = String.fromCharCode(currentCode);
-  	var option = document.createElement('option');
-  	option.text=alphabet;
-  	select.appendChild(option);
-  }
-*/
-  /*
-  let lowMap = document.mapbox.lowMap.checked;
-  if(lowMap){
-    fileName = "figure/"+map+"/low.png";
-  }else{
-    fileName = "figure/"+map+"/"+tide+".png";
-  }
-  */
   fileName = "figure/"+map+"/low.png";
-
   drawMap();
 }
 
@@ -550,18 +517,12 @@ function drawMap() {
         vor.compute(canJumpPoints,colorPalette);
         vor.render();
       }
-
-
       ctx.font= 'bold 30px Century Gothic';
       ctx.textAlign = 'left';
       ctx.fillStyle='rgb(0,0,128)';
-      ctx.fillText('コウモリマップβ',0,30);
-
-
+      //ctx.fillText('コウモリマップβ',0,30);
     }
-
   }
-
 }
 
 function createPickr(className,defaultColor){
@@ -626,12 +587,6 @@ class Parking {
 };
 
 class VoronoiHandler {
-    //voronoi: new Voronoi(),
-    //sites: [],
-    //diagram: null,
-    //canvas: null,
-    //bbox: {xl:0,xr:800,yt:0,yb:600},
-
     init() {
         this.voronoi = new Voronoi;
         this.canvas = document.getElementById('cvs1');
@@ -649,47 +604,43 @@ class VoronoiHandler {
         if (!this.diagram) {return;}
         var edges = this.diagram.edges,nEdges = edges.length,v;
     		// how many sites do we have?
-    		var sites = this.sites,
-    			nSites = sites.length;
-    		if (!nSites) {return;}
-    		// highlight cell under mouse
+        var sites = this.sites,
+          nSites = sites.length;
+        if (!nSites) {return;}
 
         for(var i=0;i<this.sites.length;i++){
-      		var cell = this.diagram.cells[this.sites[i].voronoiId];
+          var cell = this.diagram.cells[this.sites[i].voronoiId];
       		// there is no guarantee a Voronoi cell will exist for any
       		// particular site
 
-      		if (cell) {
-      			var halfedges = cell.halfedges,
-      				nHalfedges = halfedges.length;
-      			if (nHalfedges > 2) {
-      				v = halfedges[0].getStartpoint();
-      				ctx.beginPath();
-      				ctx.moveTo(v.x,v.y);
-      				for (var iHalfedge=0; iHalfedge<nHalfedges; iHalfedge++) {
-      					v = halfedges[iHalfedge].getEndpoint();
-      					ctx.lineTo(v.x,v.y);
-    					}
+          if (cell) {
+            var halfedges = cell.halfedges,
+              nHalfedges = halfedges.length;
+            if (nHalfedges > 2) {
+              v = halfedges[0].getStartpoint();
+              ctx.beginPath();
+              ctx.moveTo(v.x,v.y);
+              for (var iHalfedge=0; iHalfedge<nHalfedges; iHalfedge++) {
+                v = halfedges[iHalfedge].getEndpoint();
+                ctx.lineTo(v.x,v.y);
+              }
 
               ctx.globalAlpha = 1;
               ctx.fillStyle = this.colors[i];
-      				ctx.fill();
+              ctx.fill();
 
               ctx.globalAlpha = 1;
               ctx.strokeStyle = 'rgb(0,0,0)';
               ctx.lineWidth = 1;
               ctx.stroke();
-    				}
+            }
           }
-
-  			}
+        }
       }
-
 };
 
 // canvas上のイメージを保存
-function saveCanvas()
-{
+function saveCanvas() {
 	var canvas = document.getElementById('cvs1');
 	//アンカータグを作成
 	var a = document.createElement('a');
